@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{saludar}}</h1>
+    
+    {% for player in object_list %}
+    <li><a href="{% url 'player_detail' player.pk %}">{{player.name}}</a></li>
+    {% endfor %} 
+
+
+</body>
+</html>
