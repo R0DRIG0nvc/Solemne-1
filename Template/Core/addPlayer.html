@@ -1,0 +1,160 @@
+{% extends "Partials/_Base.html" %}
+{% load static %}
+{% block Title %}
+Inicio
+{% endblock Title %}
+{% block Styles %}
+{% endblock Styles %}
+{% block TitleMenu %}
+<ol class="breadcrumb">
+  <li class="crumb-active">
+    <a href="dashboard.html">Dashboard</a>
+  </li>
+  <li class="crumb-icon">
+    <a href="dashboard.html">
+      <span class="glyphicon glyphicon-home"></span>
+    </a>
+  </li>
+  <li class="crumb-link">
+    <a href="dashboard.html">Home</a>
+  </li>
+  <li class="crumb-trail">Dashboard</li>
+</ol>
+
+{% endblock TitleMenu %}
+{% block Content %}
+<div class="row text-center">
+    <h1>Agregar jugador</h1>
+</div>
+
+<div class="panel heading-border admin-form">
+  <div class="panel-body bg-light">
+    <form id="formu">
+      <div class="row">
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="file1" class="field file">
+              <span class="button btn-primary">Seleccionar</span>
+              <input type="file" class="gui-file" name="picture" id="file1" onChange="document.getElementById('picture').value = this.value;">
+              <input type="text" class="gui-input" id="picture" placeholder="Foto perfil..." readonly>
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label for="firstname" class="field prepend-icon">
+              <input type="text" name="name" id="name" class="gui-input" placeholder="Nombre...">
+              <label for="firstname" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="lastname" class="field prepend-icon">
+              <input type="text" name="nickname" id="nickname" class="gui-input" placeholder="Apodo...">
+              <label for="lastname" class="field-icon">
+                <i class="fa fa-user"></i>
+              </label>
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label class="field select">
+              <select id="language" name="language">
+                <option value="">Seleccionar posición...</option>
+                <option value="BA">Base</option>
+                <option value="ES">Escolta</option>
+                <option value="AL">Alero</option>
+                <option value="AP">Ala-pivot</option>
+                <option value="PI">Pivot</option>
+              </select>
+              <i class="arrow double"></i>
+            </label>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="email" class="field prepend-icon">
+              <input type="email" name="email" id="email" class="gui-input" placeholder="Correo...">
+              <label for="email" class="field-icon">
+                <i class="fa fa-envelope"></i>
+              </label>
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label for="firstname" class="field prepend-icon">
+              <input type="text" name="birthday" id="birthday" class="gui-input" placeholder="yyyy-mm-dd">
+              <label for="firstname" class="field-icon">
+                <i class="fa fa-calendar"></i>
+              </label>
+            </label>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="age" class="field prepend-icon">
+              <input type="number" name="age" id="age" min="0" class="gui-input" placeholder="Edad...">
+            </label>
+          </div>
+          <div class="col-md-5">
+            <label for="rut" class="field prepend-icon">
+              <input type="text" name="rut" id="rut" class="gui-input" placeholder="Rut...">
+            </label>
+          </div>
+          <div class="col-md-1">
+            <label for="dv" class="field prepend-icon">
+              <input type="text" name="dv" id="dv" class="gui-input" placeholder="Dv">
+            </label>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="col-md-6">
+            <label for="email" class="field prepend-icon">
+              <input type="number" name="weight" id="weight" min="0" class="gui-input" placeholder="Peso">
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="field prepend-icon">
+              <input type="number" name="height" id="height" min="0" class="gui-input" placeholder="Altura">
+            </label>
+          </div>
+        </div>
+        <div class="section row">
+          <div class="col-md-6 col-md-offset-3">
+            <button type="submit" class="btn btn-block btn-primary" name="enviar">Agregar jugador</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock Content %}
+{% block JavaScript %}
+<script src="{% static 'vendor/plugins/jquerymask/jquery.maskedinput.min.js' %}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#birthday').mask('9999-99-99');
+    $('#rut').mask('99.999.999');
+    $("#formu").submit(function(){
+      formulario = new FormData();
+      formulario.append('picture', $('#file1')[0].files[0]);
+      datos = $(this).serializeArray();
+      $.each(datos, function(key, input){
+          formulario.append(input.name, input.value);
+      });
+      formulario.append("csrfmiddlewaretoken", getCookie('csrftoken'));
+      $.ajax({
+        url: '{% url "basket_addPlayer" %}',
+        type: 'POST',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: formulario,
+        success: function(data){
+        },
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock JavaScript %}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from basket.models import Player
 from basket.forms import PlayerForm
 from django.shortcuts import redirect
+from django.http import JsonResponse
 
 
 def index(request):
@@ -13,6 +14,13 @@ def index(request):
     template_name = 'Core/index.html'
     return render(request, template_name, data)
 
+
+def addPlayer(request):
+    template_name = "../Template/Core/addPlayer.html"
+    if request.POST:
+        print (request.POST)
+        return JsonResponse({})
+    return render(request, template_name, {})
 
 # def add(request):
 #     data = {}
