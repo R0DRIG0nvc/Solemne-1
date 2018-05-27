@@ -4,6 +4,7 @@ from basket import views
 
 urlpatterns = [
     path('', views.index, name="player"),
+    path('coachList', views.coachList, name="basket_coachList"),
     # path('', views.index, name="player"),
     # path('list', views.index, name="player_list"),
     # path('add', views.add, name="player_add"),
