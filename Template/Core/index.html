@@ -1,5 +1,4 @@
 {% extends "Partials/_Base.html" %}
-{% load bootstrap4 %}
 {% load static %}
 {% block Title %}
 Agregar Jugador
@@ -25,16 +24,7 @@ Agregar Jugador
 {% endblock TitleMenu %}
 {% block Content %}
 <div class="row text-center">
-    <h1>Agregar jugador</h1>
-</div>
-
-<div class="panel heading-border admin-form">
-  <div class="panel-body bg-light">
-    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
-      {% bootstrap_form form %}
-      <input type="submit" value="Enviar" class="btn btn-primary btn-lg btn-block">
-    </form>
-  </div>
+    <h1>Index</h1>
 </div>
 {% endblock Content %}
 {% block JavaScript %}
