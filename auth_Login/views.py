@@ -39,4 +39,4 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
-    return HttpResponseRedirect(reverse('player_list'))
+    return HttpResponseRedirect(reverse('auth_Login_login'))

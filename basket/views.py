@@ -72,7 +72,7 @@ def editPlayer(request, player_id):
         if formPlayer.is_valid():
             formPlayer.save()
             return redirect('player')
-    template_name = '../Template/core/editPlayer.html'
+    template_name = '../Template/Core/editPlayer.html'
     data['player'] = EditPlayerForm(instance=Player.objects.get(pk=player_id))
 
     return render(request, template_name, data)
