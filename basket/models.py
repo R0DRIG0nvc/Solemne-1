@@ -19,12 +19,13 @@ class Player(models.Model):
     email = models.EmailField()
     height = models.PositiveIntegerField(help_text="Altura en cm")
     weight = models.PositiveIntegerField(help_text="Peso en gramos")
-    picture = models.ImageField(upload_to='picture_players')
     position = models.CharField(max_length=60, choices=POSITION_PLAYER_CHOICES)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     rut = models.CharField(max_length=8)
     dv = models.PositiveIntegerField()
+
+    picture = models.ImageField(upload_to='picture_players')
 
     def full_rut(self):
         return '{}-{}' . format(self.rut, self.dv)

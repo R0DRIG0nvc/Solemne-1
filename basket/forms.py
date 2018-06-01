@@ -29,7 +29,18 @@ class EditPlayerForm(ModelForm):
     class Meta:
         model = Player
         widgets = {
-            'rut': forms.TextInput(attrs={'class': 'form-control', 'type': 'number', 'placeholder': '111111111'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'dv': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'nickname': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'birthday': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'age': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'type': 'email'}),
+            'height': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'weight': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'position': forms.Select(attrs={'class': 'form-control'}),
+            'team': forms.Select(attrs={'class': 'form-control'}),
+            # 'picture': forms.FileInput(attrs={'class': 'form-control'}),
         }
         # fields = ['rut', 'dv', 'name', 'nickname', 'birthday', 'age', 'email', 'height', 'weight', 'picture', 'position', 'team']
         exclude = []
@@ -38,10 +49,25 @@ class EditPlayerForm(ModelForm):
 class EditCoachForm(ModelForm):
     class Meta:
         model = Coach
-        fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv']
+        widgets = {
+            'rut': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'dv': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'nickname': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'age': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'type': 'email'}),
+        }
+        # fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv']
+        exclude = []
 
 
 class EditTeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ['name', 'logo', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'type': 'text'}),
+            # 'logo': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+        # fields = ['name', 'logo', 'description']
+        exclude = []
