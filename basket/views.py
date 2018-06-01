@@ -137,6 +137,137 @@ def coachList(request):
             return JsonResponse({})
     template_name = 'Core/coachList.html'
     return render(request, template_name, {})
+
+
+def playerList(request):
+    if request.method == 'POST':
+        if request.POST['action'] == 'datatable':
+            data = []
+            query, json = paginationDataTable(request.POST, Player)
+            for x in query:
+                data.append({'logo': '<img src="' + x.picture.url + '" alt="Foto" class="img-thumbnail" style="with: 50px; height: 50px">',
+                             'rut': str(x.rut) + '-' + str(x.dv),
+                             'name': x.name,
+                             'nickname': x.nickname,
+                             'team': x.team.name,
+                             'position': x.position,
+                             'age': x.age,
+                             'email': x.email,
+                             'action': '<div class="btn-group" data-pk="' + str(x.pk) + '"> \
+                                          <button type="button" class="btn btn-primary  btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Acciones \
+                                            <span class="caret ml5"></span> \
+                                          </button> \
+                                          <ul class="dropdown-menu" role="menu"> \
+                                            <li style="cursor:pointer" class="edit"> \
+                                              <a>Editar</a> \
+                                            </li> \
+                                            <li class="divider"></li> \
+                                            <li style="cursor:pointer" class="delete"> \
+                                              <a>Eliminar</a> \
+                                            </li> \
+                                          </ul> \
+                                        </div>'})
+            json['data'] = data
+            return JsonResponse(json)
+        elif request.POST['action'] == 'delete':
+            Player.objects.get(pk=request.POST['player_pk']).delete()
+            return JsonResponse({})
+    template_name = 'Core/playerList.html'
+    return render(request, template_name, {})
+
+
+def teamList(request):
+    if request.method == 'POST':
+        if request.POST['action'] == 'datatable':
+            data = []
+            query, json = paginationDataTable(request.POST, Team)
+            for x in query:
+                data.append({'logo': '<img src="' + x.logo.url + '" alt="Foto" class="img-thumbnail" style="with: 50px; height: 50px">',
+                             'name': x.name,
+                             'description': x.description,
+                             'coach': x.coach.name,
+                             'action': '<div class="btn-group" data-pk="' + str(x.pk) + '"> \
+                                          <button type="button" class="btn btn-primary  btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Acciones \
+                                            <span class="caret ml5"></span> \
+                                          </button> \
+                                          <ul class="dropdown-menu" role="menu"> \
+                                            <li style="cursor:pointer" class="edit"> \
+                                              <a>Editar</a> \
+                                            </li> \
+                                            <li class="divider"></li> \
+                                            <li style="cursor:pointer" class="delete"> \
+                                              <a>Eliminar</a> \
+                                            </li> \
+                                          </ul> \
+                                        </div>'})
+            json['data'] = data
+            return JsonResponse(json)
+        elif request.POST['action'] == 'delete':
+            Team.objects.get(pk=request.POST['team_pk']).delete()
+            return JsonResponse({})
+    template_name = 'Core/teamList.html'
+    return render(request, template_name, {})
+
+
+def matchList(request):
+    if request.method == 'POST':
+        if request.POST['action'] == 'datatable':
+            data = []
+            query, json = paginationDataTable(request.POST, Match)
+            for x in query:
+                data.append({'team': '<img src="' + x.local.logo.url + '" alt="Foto" style="with: 25px; height: 25px"> <b>' + x.local.name + '</b> v/s <b>' + x.visit.name + '</b> <img src="' + x.visit.logo.url + '" alt="Foto" style="with: 25px; height: 25px"> ',
+                             'date': x.date,
+                             'action': '<div class="btn-group" data-pk="' + str(x.pk) + '"> \
+                                          <button type="button" class="btn btn-primary  btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Acciones \
+                                            <span class="caret ml5"></span> \
+                                          </button> \
+                                          <ul class="dropdown-menu" role="menu"> \
+                                            <li style="cursor:pointer" class="edit"> \
+                                              <a>Editar</a> \
+                                            </li> \
+                                            <li class="divider"></li> \
+                                            <li style="cursor:pointer" class="delete"> \
+                                              <a>Eliminar</a> \
+                                            </li> \
+                                          </ul> \
+                                        </div>'})
+            json['data'] = data
+            return JsonResponse(json)
+        elif request.POST['action'] == 'delete':
+            Match.objects.get(pk=request.POST['match_pk']).delete()
+            return JsonResponse({})
+    template_name = 'Core/matchList.html'
+    return render(request, template_name, {})
+
+
+def rosterList(request):
+    if request.method == 'POST':
+        if request.POST['action'] == 'datatable':
+            data = []
+            query, json = paginationDataTable(request.POST, Roster)
+            for x in query:
+                data.append({'name': x.name,
+                             'action': '<div class="btn-group" data-pk="' + str(x.pk) + '"> \
+                                          <button type="button" class="btn btn-primary  btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Acciones \
+                                            <span class="caret ml5"></span> \
+                                          </button> \
+                                          <ul class="dropdown-menu" role="menu"> \
+                                            <li style="cursor:pointer" class="edit"> \
+                                              <a>Editar</a> \
+                                            </li> \
+                                            <li class="divider"></li> \
+                                            <li style="cursor:pointer" class="delete"> \
+                                              <a>Eliminar</a> \
+                                            </li> \
+                                          </ul> \
+                                        </div>'})
+            json['data'] = data
+            return JsonResponse(json)
+        elif request.POST['action'] == 'delete':
+            Roster.objects.get(pk=request.POST['roster_pk']).delete()
+            return JsonResponse({})
+    template_name = 'Core/rosterList.html'
+    return render(request, template_name, {})
 # def add(request):
 #     data = {}
 #     if request.method == "POST":
