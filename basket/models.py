@@ -6,6 +6,7 @@ class Team(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
     logo = models.ImageField(upload_to='logos')
+    coach = models.OneToOneField('Coach', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -45,3 +46,44 @@ class Coach(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Roster(models.Model):
+    team = models.ForeignKey('Team', on_delete=models.CASCADE)
+    name = models.CharField(max_length=120)
+
+    def __str__(self):
+        return '%s - %s' % (self.name, self.team.name)
+
+
+class RosterSelection(models.Model):
+    team = models.ForeignKey('Team', on_delete=models.CASCADE)
+    roster = models.ForeignKey('Roster', on_delete=models.CASCADE)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('team', 'player'),)
+
+    def __str__(self):
+        return '%s - %s - %s' % (self.team.name, self.roster.name, self.player.name)
+
+
+class Match(models.Model):
+    local = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='match_local')
+    visit = models.ForeignKey('Team', on_delete=models.CASCADE, related_name='match_visit')
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return '%s v/s %s' % (self.local.name, self.visit.name)
+
+
+class MatchRoster(models.Model):
+    match = models.OneToOneField('Match', on_delete=models.CASCADE)
+    local = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='matchroster_local')
+    visit = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='matchroster_visit')
+
+    class Meta:
+        unique_together = (('match', 'local', 'visit'),)
+
+    def __str__(self):
+        return '%s v/s %s - %s' % (self.local.name, self.visit.name, self.match.date)

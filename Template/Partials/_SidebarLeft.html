@@ -2,77 +2,36 @@
 <ul class="nav sidebar-menu">
   <li class="sidebar-label pt20">Principal</li>
     <li>
-      <a href="#">
+      <a href="{% url 'basket_index' %}">
         <span class="fa fa-home"></span>
-        <span class="sidebar-title">Inicio</span>
+        <span class="sidebar-title">Partidos</span>
       </a>
     </li>
   </li>
   <li class="sidebar-label pt20">Configuración</li>
     <li>
-      <a href="#">
+      <a href="{% url 'basket_coachList' %}">
         <span class="fa fa-cogs"></span>
-        <span class="sidebar-title">General</span>
+        <span class="sidebar-title">Partidos</span>
+      </a>
+      <a href="{% url 'basket_coachList' %}">
+        <span class="fa fa-cogs"></span>
+        <span class="sidebar-title">Entrenadores</span>
+      </a>
+      <a href="{% url 'basket_coachList' %}">
+        <span class="fa fa-cogs"></span>
+        <span class="sidebar-title">Equipos</span>
+      </a>
+      <a href="{% url 'basket_coachList' %}">
+        <span class="fa fa-cogs"></span>
+        <span class="sidebar-title">Jugadores</span>
+      </a>
+      <a href="{% url 'basket_coachList' %}">
+        <span class="fa fa-cogs"></span>
+        <span class="sidebar-title">Nóminas</span>
       </a>
     </li>
   </li>
-  {% comment %}
-  <li class="sidebar-label pt20">Templo</li>
-  {% if request.user.userprofile.getTemple == False %}
-  <li>
-    <a href="#">
-      <span class="fa fa-plus"></span>
-      <span class="sidebar-title">Crear Templo</span>
-    </a>
-  </li>
-  {% endif %}
-  {% if request.user.userprofile.getTemple %}
-  <li>
-    <a href="{#">
-      <span class="fa fa-bank"></span>
-      <span class="sidebar-title">Perfl Templo</span>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <span class="fa fa-plus"></span>
-      <span class="sidebar-title">Agregar usuarios al templo</span>
-    </a>
-  </li>
-  <li>
-    <a href="{#">
-      <span class="fa fa-pencil"></span>
-      <span class="sidebar-title">Modificar Templo</span>
-    </a>
-  </li>
-  {% endif %}
-  <li>
-    <a href="#">
-      <span class="fa fa-search"></span>
-      <span class="sidebar-title">Buscar Templos</span>
-    </a>
-  </li>
-  <li class="sidebar-label pt20">Red Social</li>
-  <li>
-    <a href="#">
-      <span class="fa fa-share-alt"></span>
-      <span class="sidebar-title">Social</span>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <span class="fa fa-user"></span>
-      <span class="sidebar-title">Perfil</span>
-    </a>
-  </li>
-  <li>
-    <a href="#">
-      <span class="fa fa-envelope"></span>
-      <span class="sidebar-title">Mensajería</span>
-    </a>
-  </li>
-  {% endcomment %}
-
   <!-- sidebar bullets -->
   <li class="sidebar-label pt20">Projects</li>
   <li class="sidebar-proj">
