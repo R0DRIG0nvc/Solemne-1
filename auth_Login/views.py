@@ -21,7 +21,7 @@ def loginUser(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('player'))
+                return HttpResponseRedirect(reverse('basket_index'))
             else:
                 print("usuario o contraseña no validos")
                 messages.warning(

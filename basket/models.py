@@ -1,5 +1,6 @@
 from django.db import models
 from basket.defines import POSITION_PLAYER_CHOICES
+from django.contrib.auth.models import User
 
 
 class Team(models.Model):
@@ -36,6 +37,7 @@ class Player(models.Model):
 
 
 class Coach(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     age = models.PositiveIntegerField()
     email = models.EmailField()
