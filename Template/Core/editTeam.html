@@ -1,7 +1,8 @@
 {% extends "Partials/_Base.html" %}
+{% load bootstrap4 %}
 {% load static %}
 {% block Title %}
-Agregar Jugador
+Editar Equipo
 {% endblock Title %}
 {% block Styles %}
 {% endblock Styles %}
@@ -24,7 +25,21 @@ Agregar Jugador
 {% endblock TitleMenu %}
 {% block Content %}
 <div class="row text-center">
-    <h1>Index</h1>
+    <h1>Editar equipo</h1>
+</div>
+
+<div class="panel heading-border admin-form">
+  <div class="panel-body bg-light">
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      {{ team.as_p }}
+      <!-- <div class="fieldWrapper">
+        {{ team.subject.errors }}
+        <label for="{{ form.subject.name }}">Nombre del equipo: </label>
+        {{ team.name }}
+      </div> -->
+      <input type="submit" value="Enviar" class="btn btn-primary btn-lg btn-block">
+    </form>
+  </div>
 </div>
 {% endblock Content %}
 {% block JavaScript %}

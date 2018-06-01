@@ -23,6 +23,7 @@ from basket.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('basket/', include('basket.urls'), name='basket'),
+    path('auth/', include('auth_Login.urls'), name='auth_Login'),
     path('', index, name='core_index'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
