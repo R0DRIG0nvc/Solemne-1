@@ -1,12 +1,23 @@
 from django.forms import ModelForm
-from basket.models import Player, Team, Coach
+from basket.models import *
 from django import forms
+from django.contrib.auth.models import User
+
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+            'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}),
+        }
+        fields = ['username', 'password']
 
 
 class PlayerForm(ModelForm):
     class Meta:
         model = Player
-        fields = ['rut', 'dv', 'name', 'nickname', 'birthday', 'age', 'email', 'height', 'weight', 'picture', 'position', 'team']
+        exclude = []
 
 
 class TeamForm(ModelForm):
@@ -18,7 +29,7 @@ class TeamForm(ModelForm):
 class CoachForm(ModelForm):
     class Meta:
         model = Coach
-        fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv']
+        exclude = ['user']
 
 
 class EditPlayerForm(ModelForm):
@@ -40,9 +51,7 @@ class EditPlayerForm(ModelForm):
             'weight': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
             'position': forms.Select(attrs={'class': 'form-control'}),
             'team': forms.Select(attrs={'class': 'form-control'}),
-            # 'picture': forms.FileInput(attrs={'class': 'form-control'}),
         }
-        # fields = ['rut', 'dv', 'name', 'nickname', 'birthday', 'age', 'email', 'height', 'weight', 'picture', 'position', 'team']
         exclude = []
 
 
@@ -57,7 +66,6 @@ class EditCoachForm(ModelForm):
             'age': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'type': 'email'}),
         }
-        # fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv']
         exclude = []
 
 
@@ -67,7 +75,29 @@ class EditTeamForm(ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'type': 'text'}),
-            # 'logo': forms.FileInput(attrs={'class': 'form-control'}),
         }
-        # fields = ['name', 'logo', 'description']
+        exclude = []
+
+
+class MatchForm(ModelForm):
+    class Meta:
+        model = Match
+        exclude = []
+
+
+class RosterForm(ModelForm):
+    class Meta:
+        model = Roster
+        exclude = []
+
+
+class RosterSelectionForm(ModelForm):
+    class Meta:
+        model = RosterSelection
+        exclude = []
+
+
+class MatchRosterForm(ModelForm):
+    class Meta:
+        model = MatchRoster
         exclude = []

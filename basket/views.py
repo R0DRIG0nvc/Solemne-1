@@ -23,7 +23,7 @@ def addPlayer(request):
             if data['form'].is_valid():
                 data['form'].save()
 
-                return redirect('player')
+                return redirect('basket_index')
 
     else:
         data['form'] = PlayerForm()
@@ -40,7 +40,7 @@ def addTeam(request):
             if data['form'].is_valid():
                 data['form'].save()
 
-                return redirect('player')
+                return redirect('basket_index')
 
     else:
         data['form'] = TeamForm()
@@ -53,16 +53,89 @@ def addCoach(request):
     data = {}
     if request.method == "POST":
             data['form'] = CoachForm(request.POST, request.FILES)
+            data['user'] = UserForm(request.POST)
+
+            if data['form'].is_valid() and data['user'].is_valid():
+                user = data['user'].save()
+                coach = data['form'].save(commit=False)
+                coach.user = user
+                coach.save()
+
+                return redirect('basket_index')
+
+    else:
+        data['form'] = CoachForm()
+        data['user'] = UserForm()
+
+        template_name = "../Template/Core/addCoach.html"
+        return render(request, template_name, data)
+
+
+def addMatch(request):
+    data = {}
+    if request.method == "POST":
+            data['form'] = MatchForm(request.POST, request.FILES)
 
             if data['form'].is_valid():
                 data['form'].save()
 
-                return redirect('player')
+                return redirect('basket_index')
 
     else:
-        data['form'] = CoachForm()
+        data['form'] = MatchForm()
 
-        template_name = "../Template/Core/addCoach.html"
+        template_name = "../Template/Core/addMatch.html"
+        return render(request, template_name, data)
+
+
+def addMatchRoster(request):
+    data = {}
+    if request.method == "POST":
+            data['form'] = MatchRosterForm(request.POST, request.FILES)
+
+            if data['form'].is_valid():
+                data['form'].save()
+
+                return redirect('basket_index')
+
+    else:
+        data['form'] = MatchRosterForm()
+
+        template_name = "../Template/Core/addMatchRoster.html"
+        return render(request, template_name, data)
+
+
+def addRoster(request):
+    data = {}
+    if request.method == "POST":
+            data['form'] = RosterForm(request.POST, request.FILES)
+
+            if data['form'].is_valid():
+                data['form'].save()
+
+                return redirect('basket_index')
+
+    else:
+        data['form'] = RosterForm()
+
+        template_name = "../Template/Core/addRoster.html"
+        return render(request, template_name, data)
+
+
+def addRosterSelection(request):
+    data = {}
+    if request.method == "POST":
+            data['form'] = RosterSelectionForm(request.POST, request.FILES)
+
+            if data['form'].is_valid():
+                data['form'].save()
+
+                return redirect('basket_index')
+
+    else:
+        data['form'] = RosterSelectionForm()
+
+        template_name = "../Template/Core/addRosterSelection.html"
         return render(request, template_name, data)
 
 
@@ -72,7 +145,7 @@ def editPlayer(request, player_id):
         formPlayer = EditPlayerForm(request.POST, request.FILES, instance=Player.objects.get(pk=player_id))
         if formPlayer.is_valid():
             formPlayer.save()
-            return redirect('player')
+            return redirect('basket_index')
     template_name = '../Template/Core/editPlayer.html'
     data['player'] = EditPlayerForm(instance=Player.objects.get(pk=player_id))
 
@@ -85,7 +158,7 @@ def editCoach(request, coach_id):
         formCoach = EditCoachForm(request.POST, request.FILES, instance=Coach.objects.get(pk=coach_id))
         if formCoach.is_valid():
             formCoach.save()
-            return redirect('player')
+            return redirect('basket_index')
     template_name = '../Template/core/editCoach.html'
     data['coach'] = EditCoachForm(instance=Coach.objects.get(pk=coach_id))
 
@@ -98,7 +171,7 @@ def editTeam(request, team_id):
         formTeam = EditTeamForm(request.POST, request.FILES, instance=Team.objects.get(pk=team_id))
         if formTeam.is_valid():
             formTeam.save()
-            return redirect('player')
+            return redirect('basket_index')
     template_name = '../Template/core/editTeam.html'
     data['team'] = EditTeamForm(instance=Team.objects.get(pk=team_id))
 
