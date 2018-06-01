@@ -31,7 +31,7 @@ Entrenadores
     <div class="panel panel-visible" id="spy2">
       <div class="panel-heading">
         <div class="panel-title hidden-xs">
-          <span class="glyphicon glyphicon-tasks"></span>Entrenadores
+          <span class="glyphicon glyphicon-tasks"></span>Partidos
           <a href="{% url 'basket_addCoach' %}">
             <button type="button" class="btn btn-sm btn-primary pull-right mt5"> <li class="fa fa-plus"></li> Agregar</button>
           </a>
@@ -41,11 +41,8 @@ Entrenadores
         <table class="table table-striped table-hover" id="tableCoach" cellspacing="0" width="100%">
           <thead>
             <tr>
-              <th>Rut</th>
-              <th>Nombre</th>
-              <th>Nick</th>
-              <th>Edad</th>
-              <th>Email</th>
+              <th>Equipos</th>
+              <th>Fecha</th>
               <th>Acción</th>
             </tr>
           </thead>
@@ -166,7 +163,7 @@ Entrenadores
     "processing": true,
     "serverSide": true,
     "ajax": {
-        "url": "{% url 'basket_coachList' %}",
+        "url": "{% url 'basket_matchList' %}",
         "type": "POST",
         "data": {
           "csrfmiddlewaretoken": getCookie('csrftoken'),
@@ -174,16 +171,15 @@ Entrenadores
         }
     },
     "columns": [
-        { "data": "rut" },
-        { "data": "name" },
-        { "data": "nickname" },
-        { "data": "age" },
-        { "data": "email" },
+        { "data": "team" },
+        { "data": "date" },
         { "data": "action" },
     ],
-    "aoColumnDefs": [{
+    "columnDefs": [ {
+      "className": 'text-center',
+      "targets": [0, 2],
       'bSortable': false,
-      'aTargets': [0,1,2,3,4,5]
+      'aTargets':  "_all"
     }],
     "language": {
       "sProcessing":     "Procesando...",
@@ -222,10 +218,10 @@ Entrenadores
   $(document).on('click', '.delete', function(){
     div = $(this);
     $.ajax({
-      url : "{% url 'basket_coachList' %}",
+      url : "{% url 'basket_matchList' %}",
       type: "POST",
       data : {
-        coach_pk : div.parents().eq(1).data('pk'),
+        match_pk : div.parents().eq(1).data('pk'),
         action : "delete",
         csrfmiddlewaretoken: getCookie('csrftoken'),
       },
@@ -237,10 +233,10 @@ Entrenadores
   $(document).on('click', '.edit', function(){
     div = $(this);
     $.ajax({
-      url : "{% url 'basket_coachList' %}",
+      url : "{% url 'basket_matchList' %}",
       type: "POST",
       data : {
-        coach_pk : div.parents().eq(1).data('pk'),
+        match_pk : div.parents().eq(1).data('pk'),
         action : "edit",
         csrfmiddlewaretoken: getCookie('csrftoken'),
       },
