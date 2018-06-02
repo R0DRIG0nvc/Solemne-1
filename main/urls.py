@@ -17,13 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from basket.views import index
+from basket.views import matchList
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('basket/', include('basket.urls'), name='basket'),
     path('auth/', include('auth_Login.urls'), name='auth_Login'),
-    path('', index, name='core_index'),
+    path('', matchList, name='basket_matchList'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

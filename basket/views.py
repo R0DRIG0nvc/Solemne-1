@@ -5,17 +5,10 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from basket.function import *
+from django.contrib.auth.decorators import login_required
 
 
-def index(request):
-    data = {}
-
-    data['object_list'] = Player.objects.all().order_by('-id')
-
-    template_name = '../Template/Basket/index.html'
-    return render(request, template_name, data)
-
-
+@login_required(login_url='/auth/login')
 def addPlayer(request):
     data = {}
     if request.method == "POST":
@@ -29,10 +22,11 @@ def addPlayer(request):
     else:
         data['form'] = PlayerForm()
 
-        template_name = "../Template/Basket/Add/addPlayer.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addPlayer.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addTeam(request):
     data = {}
     if request.method == "POST":
@@ -46,10 +40,11 @@ def addTeam(request):
     else:
         data['form'] = TeamForm()
 
-        template_name = "../Template/Basket/Add/addTeam.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addTeam.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addCoach(request):
     data = {}
     if request.method == "POST":
@@ -57,21 +52,23 @@ def addCoach(request):
             data['user'] = UserForm(request.POST)
 
             if data['form'].is_valid() and data['user'].is_valid():
-                user = data['user'].save()
+                user = data['user'].save(commit=False)
+                user.set_password(request.POST['password'])
+                user.save()
                 coach = data['form'].save(commit=False)
                 coach.user = user
                 coach.save()
-
                 return redirect('basket_coachList')
 
     else:
         data['form'] = CoachForm()
         data['user'] = UserForm()
 
-        template_name = "../Template/Basket/Add/addCoach.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addCoach.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addMatch(request):
     data = {}
     if request.method == "POST":
@@ -85,10 +82,11 @@ def addMatch(request):
     else:
         data['form'] = MatchForm()
 
-        template_name = "../Template/Basket/Add/addMatch.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addMatch.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addMatchRoster(request):
     data = {}
     if request.method == "POST":
@@ -97,15 +95,16 @@ def addMatchRoster(request):
             if data['form'].is_valid():
                 data['form'].save()
 
-                return redirect('basket_index')
+                return redirect('basket_matchList')
 
     else:
         data['form'] = MatchRosterForm()
 
-        template_name = "../Template/Basket/Add/addMatchRoster.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addMatchRoster.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addRoster(request):
     data = {}
     if request.method == "POST":
@@ -119,10 +118,11 @@ def addRoster(request):
     else:
         data['form'] = RosterForm()
 
-        template_name = "../Template/Basket/Add/addRoster.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addRoster.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addRosterSelection(request):
     data = {}
     if request.method == "POST":
@@ -136,10 +136,11 @@ def addRosterSelection(request):
     else:
         data['form'] = RosterSelectionForm(request=request)
 
-        template_name = "../Template/Basket/Add/addRosterSelection.html"
-        return render(request, template_name, data)
+    template_name = "../Template/Basket/Add/addRosterSelection.html"
+    return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editPlayer(request, player_id):
     data = {}
     if request.POST:
@@ -153,6 +154,7 @@ def editPlayer(request, player_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editCoach(request, coach_id):
     data = {}
     if request.POST:
@@ -166,6 +168,7 @@ def editCoach(request, coach_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editTeam(request, team_id):
     data = {}
     if request.POST:
@@ -179,6 +182,7 @@ def editTeam(request, team_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def coachList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -213,6 +217,7 @@ def coachList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def playerList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -250,6 +255,7 @@ def playerList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def teamList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -297,28 +303,40 @@ def matchList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def rosterList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
-            data = []
-            query, json = paginationDataTableCoach(request.POST, Roster, request)
-            for x in query:
-                data.append({'name': x.name})
-            json['data'] = data
-            return JsonResponse(json)
+            try:
+                data = []
+                query, json = paginationDataTableCoach(request.POST, Roster, request)
+                for x in query:
+                    data.append({'name': x.name})
+                json['data'] = data
+                return JsonResponse(json)
+            except:
+                return JsonResponse({"recordsTotal": 0,
+                                     "recordsFiltered": 0,
+                                     "data": []})
     template_name = 'Basket/List/rosterList.html'
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def rosterSelectionList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
-            data = []
-            query, json = paginationDataTableCoach(request.POST, RosterSelection, request)
-            for x in query:
-                data.append({'name': x.roster.name,
-                             'player': x.player.name})
-            json['data'] = data
-            return JsonResponse(json)
+            try:
+                data = []
+                query, json = paginationDataTableCoach(request.POST, RosterSelection, request)
+                for x in query:
+                    data.append({'name': x.roster.name,
+                                 'player': x.player.name})
+                json['data'] = data
+                return JsonResponse(json)
+            except:
+                return JsonResponse({"recordsTotal": 0,
+                                     "recordsFiltered": 0,
+                                     "data": []})
     template_name = 'Basket/List/rosterSelectionList.html'
     return render(request, template_name, {})

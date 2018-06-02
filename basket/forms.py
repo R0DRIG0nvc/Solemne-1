@@ -11,7 +11,7 @@ class UserForm(ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'}),
         }
-        fields = ['username', 'password']
+        fields = ('username', 'password')
 
 
 class PlayerForm(ModelForm):
