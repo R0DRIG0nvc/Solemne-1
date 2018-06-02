@@ -25,7 +25,7 @@ class Player(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     rut = models.CharField(max_length=8)
-    dv = models.PositiveIntegerField()
+    dv = models.CharField(max_length=1)
 
     picture = models.ImageField(upload_to='picture_players')
 
@@ -59,6 +59,7 @@ class Roster(models.Model):
 
 
 class RosterSelection(models.Model):
+    team = models.ForeignKey('Team', on_delete=models.CASCADE)
     roster = models.ForeignKey('Roster', on_delete=models.CASCADE)
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
 

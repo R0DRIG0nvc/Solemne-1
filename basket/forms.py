@@ -92,9 +92,16 @@ class RosterForm(ModelForm):
 
 
 class RosterSelectionForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(RosterSelectionForm, self).__init__(*args, **kwargs)
+        if len(args) == 0:
+            self.fields['roster'] = forms.ModelChoiceField(queryset=Roster.objects.filter(team=self.request.user.coach.team))
+            self.fields['player'] = forms.ChoiceField(choices=[(x.pk, x.name) for x in self.request.user.coach.team.player_set.all()])
+
     class Meta:
         model = RosterSelection
-        exclude = []
+        exclude = ['team']
 
 
 class MatchRosterForm(ModelForm):

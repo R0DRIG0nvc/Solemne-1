@@ -110,10 +110,10 @@ def addRoster(request):
     data = {}
     if request.method == "POST":
             data['form'] = RosterForm(request.POST, request.FILES)
-
             if data['form'].is_valid():
+                data['form'] = data['form'].save(commit=False)
+                data['form'].team = request.user.coach.team
                 data['form'].save()
-
                 return redirect('basket_rosterList')
 
     else:
@@ -126,15 +126,15 @@ def addRoster(request):
 def addRosterSelection(request):
     data = {}
     if request.method == "POST":
-            data['form'] = RosterSelectionForm(request.POST, request.FILES)
-
+            data['form'] = RosterSelectionForm(request.POST, request.FILES, request=request)
             if data['form'].is_valid():
+                data['form'] = data['form'].save(commit=False)
+                data['form'].team = request.user.coach.team
                 data['form'].save()
-
                 return redirect('basket_rosterSelectionList')
 
     else:
-        data['form'] = RosterSelectionForm()
+        data['form'] = RosterSelectionForm(request=request)
 
         template_name = "../Template/Basket/Add/addRosterSelection.html"
         return render(request, template_name, data)
@@ -301,7 +301,7 @@ def rosterList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
             data = []
-            query, json = paginationDataTable(request.POST, Roster)
+            query, json = paginationDataTableCoach(request.POST, Roster, request)
             for x in query:
                 data.append({'name': x.name})
             json['data'] = data
@@ -314,7 +314,7 @@ def rosterSelectionList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
             data = []
-            query, json = paginationDataTable(request.POST, RosterSelection)
+            query, json = paginationDataTableCoach(request.POST, RosterSelection, request)
             for x in query:
                 data.append({'name': x.roster.name,
                              'player': x.player.name})
