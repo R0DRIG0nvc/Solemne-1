@@ -2,30 +2,29 @@
 <ul class="nav sidebar-menu">
   <li class="sidebar-label pt20">Principal</li>
     <li>
-      <a href="{% url 'basket_index' %}">
+      <a href="{% url 'basket_matchList' %}">
         <span class="fa fa-home"></span>
         <span class="sidebar-title">Partidos</span>
       </a>
     </li>
   </li>
+  {% if request.user.is_authenticated %}
   <li class="sidebar-label pt20">Configuración</li>
     <li>
-      <a href="{% url 'basket_matchList' %}">
-        <span class="fa fa-cogs"></span>
-        <span class="sidebar-title">Partidos</span>
-      </a>
-      <a href="{% url 'basket_coachList' %}">
-        <span class="fa fa-cogs"></span>
-        <span class="sidebar-title">Entrenadores</span>
-      </a>
-      <a href="{% url 'basket_teamList' %}">
-        <span class="fa fa-cogs"></span>
-        <span class="sidebar-title">Equipos</span>
-      </a>
-      <a href="{% url 'basket_playerList' %}">
-        <span class="fa fa-cogs"></span>
-        <span class="sidebar-title">Jugadores</span>
-      </a>
+    {% if not request.user.coach %}
+        <a href="{% url 'basket_coachList' %}">
+          <span class="fa fa-cogs"></span>
+          <span class="sidebar-title">Entrenadores</span>
+        </a>
+        <a href="{% url 'basket_teamList' %}">
+          <span class="fa fa-cogs"></span>
+          <span class="sidebar-title">Equipos</span>
+        </a>
+        <a href="{% url 'basket_playerList' %}">
+          <span class="fa fa-cogs"></span>
+          <span class="sidebar-title">Jugadores</span>
+        </a>
+      {% endif %}
       <a href="{% url 'basket_rosterList' %}">
         <span class="fa fa-cogs"></span>
         <span class="sidebar-title">Nóminas</span>
@@ -34,8 +33,9 @@
         <span class="fa fa-cogs"></span>
         <span class="sidebar-title">Selección Nóminas</span>
       </a>
+      </li>
     </li>
-  </li>
+  {% endif %}
   <!-- sidebar bullets -->
   <li class="sidebar-label pt20">Projects</li>
   <li class="sidebar-proj">

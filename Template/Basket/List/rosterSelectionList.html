@@ -31,9 +31,11 @@ Entrenadores
       <div class="panel-heading">
         <div class="panel-title hidden-xs">
           <span class="glyphicon glyphicon-tasks"></span>Selección Nómina
-          <a href="{% url 'basket_addRosterSelection' %}">
-            <button type="button" class="btn btn-sm btn-primary pull-right mt5"> <li class="fa fa-plus"></li> Agregar</button>
-          </a>
+          {% if request.user.coach.team %}
+            <a href="{% url 'basket_addRosterSelection' %}">
+              <button type="button" class="btn btn-sm btn-primary pull-right mt5"> <li class="fa fa-plus"></li> Agregar</button>
+            </a>
+          {% endif %}
         </div>
       </div>
       <div class="panel-body pn">

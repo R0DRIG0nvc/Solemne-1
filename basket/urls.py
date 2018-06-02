@@ -3,7 +3,7 @@ from basket import views
 
 
 urlpatterns = [
-    path('', views.index, name="basket_index"),
+    # path('', views.index, name="basket_index"),
     path('coachList', views.coachList, name="basket_coachList"),
     path('playerList', views.playerList, name="basket_playerList"),
     path('teamList', views.teamList, name="basket_teamList"),

@@ -5,17 +5,10 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from basket.function import *
+from django.contrib.auth.decorators import login_required
 
 
-def index(request):
-    data = {}
-
-    data['object_list'] = Player.objects.all().order_by('-id')
-
-    template_name = '../Template/Basket/index.html'
-    return render(request, template_name, data)
-
-
+@login_required(login_url='/auth/login')
 def addPlayer(request):
     data = {}
     if request.method == "POST":
@@ -33,6 +26,7 @@ def addPlayer(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addTeam(request):
     data = {}
     if request.method == "POST":
@@ -50,6 +44,7 @@ def addTeam(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addCoach(request):
     data = {}
     if request.method == "POST":
@@ -72,6 +67,7 @@ def addCoach(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addMatch(request):
     data = {}
     if request.method == "POST":
@@ -89,6 +85,7 @@ def addMatch(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addMatchRoster(request):
     data = {}
     if request.method == "POST":
@@ -97,7 +94,7 @@ def addMatchRoster(request):
             if data['form'].is_valid():
                 data['form'].save()
 
-                return redirect('basket_index')
+                return redirect('basket_matchList')
 
     else:
         data['form'] = MatchRosterForm()
@@ -106,6 +103,7 @@ def addMatchRoster(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addRoster(request):
     data = {}
     if request.method == "POST":
@@ -123,6 +121,7 @@ def addRoster(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def addRosterSelection(request):
     data = {}
     if request.method == "POST":
@@ -140,6 +139,7 @@ def addRosterSelection(request):
         return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editPlayer(request, player_id):
     data = {}
     if request.POST:
@@ -153,6 +153,7 @@ def editPlayer(request, player_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editCoach(request, coach_id):
     data = {}
     if request.POST:
@@ -166,6 +167,7 @@ def editCoach(request, coach_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def editTeam(request, team_id):
     data = {}
     if request.POST:
@@ -179,6 +181,7 @@ def editTeam(request, team_id):
     return render(request, template_name, data)
 
 
+@login_required(login_url='/auth/login')
 def coachList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -213,6 +216,7 @@ def coachList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def playerList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -250,6 +254,7 @@ def playerList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def teamList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -297,6 +302,7 @@ def matchList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def rosterList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
@@ -310,6 +316,7 @@ def rosterList(request):
     return render(request, template_name, {})
 
 
+@login_required(login_url='/auth/login')
 def rosterSelectionList(request):
     if request.method == 'POST':
         if request.POST['action'] == 'datatable':
