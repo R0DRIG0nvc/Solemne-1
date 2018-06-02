@@ -23,7 +23,7 @@ class PlayerForm(ModelForm):
 class TeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ['name', 'logo', 'description']
+        exclude = []
 
 
 class CoachForm(ModelForm):
@@ -66,7 +66,7 @@ class EditCoachForm(ModelForm):
             'age': forms.TextInput(attrs={'class': 'form-control', 'type': 'number'}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'type': 'email'}),
         }
-        exclude = []
+        exclude = ['user']
 
 
 class EditTeamForm(ModelForm):
@@ -88,7 +88,7 @@ class MatchForm(ModelForm):
 class RosterForm(ModelForm):
     class Meta:
         model = Roster
-        exclude = []
+        exclude = ['team']
 
 
 class RosterSelectionForm(ModelForm):

@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 
 
 class Team(models.Model):
+    coach = models.OneToOneField('Coach', on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     description = models.TextField()
     logo = models.ImageField(upload_to='logos')
-    coach = models.OneToOneField('Coach', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -59,15 +59,14 @@ class Roster(models.Model):
 
 
 class RosterSelection(models.Model):
-    team = models.ForeignKey('Team', on_delete=models.CASCADE)
     roster = models.ForeignKey('Roster', on_delete=models.CASCADE)
     player = models.ForeignKey('Player', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (('team', 'player'),)
+        unique_together = (('roster', 'player'),)
 
     def __str__(self):
-        return '%s - %s - %s' % (self.team.name, self.roster.name, self.player.name)
+        return '%s - %s' % (self.roster.name, self.player.name)
 
 
 class Match(models.Model):

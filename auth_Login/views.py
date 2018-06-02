@@ -6,7 +6,7 @@ from django.contrib import messages
 
 
 def loginUser(request):
-    template_name = '../Template/Core/login.html'
+    template_name = '../Template/Login/login.html'
     data = {}
 
     logout(request)

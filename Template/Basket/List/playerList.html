@@ -1,0 +1,146 @@
+{% extends "Partials/_Base.html" %}
+{% load static %}
+{% block Title %}
+Entrenadores
+{% endblock Title %}
+{% block Styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/plugins/datatables/media/css/dataTables.bootstrap.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/plugins/datatables/media/css/dataTables.plugins.css' %}">
+{% endblock Styles %}
+{% block TitleMenu %}
+<ol class="breadcrumb">
+  <li class="crumb-active">
+    <a href="dashboard.html">Dashboard</a>
+  </li>
+  <li class="crumb-icon">
+    <a href="dashboard.html">
+      <span class="glyphicon glyphicon-home"></span>
+    </a>
+  </li>
+  <li class="crumb-link">
+    <a href="dashboard.html">Home</a>
+  </li>
+  <li class="crumb-trail">Dashboard</li>
+</ol>
+{% endblock TitleMenu %}
+{% block Content %}
+<!-- <div class="tray tray-center"> -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-visible" id="spy2">
+      <div class="panel-heading">
+        <div class="panel-title hidden-xs">
+          <span class="glyphicon glyphicon-tasks"></span>Jugadores
+          <a href="{% url 'basket_addPlayer' %}">
+            <button type="button" class="btn btn-sm btn-primary pull-right mt5"> <li class="fa fa-plus"></li> Agregar</button>
+          </a>
+        </div>
+      </div>
+      <div class="panel-body pn">
+        <table class="table table-striped table-hover" id="tableCoach" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Rut</th>
+              <th>Nombre</th>
+              <th>Nick</th>
+              <th>Team</th>
+              <th>Posición</th>
+              <th>Edad</th>
+              <th>Email</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+{% endblock Content %}
+{% block JavaScript %}
+<script src="{% static 'vendor/plugins/datatables/media/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'vendor/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js' %}"></script>
+<script src="{% static 'vendor/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js' %}"></script>
+<script src="{% static 'vendor/plugins/datatables/media/js/dataTables.bootstrap.js' %}"></script>
+<script type="text/javascript">
+  var tableCoach =
+  $('#tableCoach').DataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+        "url": "{% url 'basket_playerList' %}",
+        "type": "POST",
+        "data": {
+          "csrfmiddlewaretoken": getCookie('csrftoken'),
+          "action" : 'datatable'
+        }
+    },
+    "columns": [
+        { "data": "logo" },
+        { "data": "rut" },
+        { "data": "name" },
+        { "data": "nickname" },
+        { "data": "team" },
+        { "data": "position" },
+        { "data": "age" },
+        { "data": "email" },
+        { "data": "action" },
+    ],
+    "aoColumnDefs": [{
+      'bSortable': false,
+      'aTargets': [0,1,2,3,4,5,6,7]
+    }],
+    "language": {
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "iDisplayLength": 10,
+    "aLengthMenu": [
+      [5, 10, 25, 50, -1],
+      [5, 10, 25, 50, "Todos"]
+    ],
+    "sDom": '<"dt-panelmenu clearfix"lfr>t<"dt-panelfooter clearfix"ip>',
+    "oTableTools": {
+      "sSwfPath": "{% static 'vendor/plugins/datatables/extensions/TableTools/swf/copy_csv_xls_pdf.swf' %}"
+    }
+  });
+  $(document).on('click', '.delete', function(){
+    div = $(this);
+    $.ajax({
+      url : "{% url 'basket_playerList' %}",
+      type: "POST",
+      data : {
+        player_pk : div.parents().eq(1).data('pk'),
+        action : "delete",
+        csrfmiddlewaretoken: getCookie('csrftoken'),
+      },
+      success: function(data){
+        tableCoach.row(div.parents().eq(4)).remove().draw();
+      },
+    });
+  })
+</script>
+{% endblock JavaScript %}

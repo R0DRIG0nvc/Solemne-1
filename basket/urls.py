@@ -9,6 +9,7 @@ urlpatterns = [
     path('teamList', views.teamList, name="basket_teamList"),
     path('matchList', views.matchList, name="basket_matchList"),
     path('rosterList', views.rosterList, name="basket_rosterList"),
+    path('rosterSelectionList', views.rosterSelectionList, name="basket_rosterSelectionList"),
     path('addPlayer', views.addPlayer, name="basket_addPlayer"),
     path('addTeam', views.addTeam, name="basket_addTeam"),
     path('addCoach', views.addCoach, name="basket_addCoach"),
