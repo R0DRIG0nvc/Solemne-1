@@ -44,7 +44,7 @@ class Coach(models.Model):
     nickname = models.CharField(max_length=120)
 
     rut = models.CharField(max_length=8)
-    dv = models.PositiveIntegerField()
+    dv = models.CharField(max_length=1)
 
     def __str__(self):
         return self.name
